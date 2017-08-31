@@ -12,6 +12,22 @@ images = images.map((img)=> {
     return img;
 });
 
+let ImgFigure = React.createClass({
+    render() {
+        return (
+            <figure className='img-figure'>
+                <img src={this.props.data.imageURL} alt={this.props.data.title}/>
+                <figurecaption>
+                    <h2 className="img-title">{this.props.data.title}</h2>
+                    <div className="img-desc">
+                        <p>{this.props.data.desc}</p>
+                    </div>
+                </figurecaption>
+            </figure>
+        );
+    }
+});
+
 class AppComponent extends React.Component {
     Constant: {
         centerPos: {
@@ -81,7 +97,8 @@ class AppComponent extends React.Component {
         let imgFigures = [];
 
         images.map((img, index) => {
-            imgFigures.push(<ImgFigure ref={'imageFigure'+index}/>)
+            imgFigures.push(<ImgFigure ref={'imageFigure'+index} data={img}/>);
+            return img;
         });
 
         return (
