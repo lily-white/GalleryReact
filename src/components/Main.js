@@ -44,12 +44,12 @@ let ImgFigure = createReactClass({
             styleObj = this.props.arrange.pos;
         }
         if(this.props.arrange.isCenter){
-            styleObj.zIndex = "11";
+            styleObj.zIndex = '11';
         }
 
         if(this.props.arrange.rotate){
-            ["Webkit", "Moz", "ms", ""].map((item) => {
-                styleObj[item + "Transform"] = "rotate(" + this.props.arrange.rotate + "deg)";
+            ['WebkitTransform', 'MozTransform', 'msTransform', 'transform'].map((item) => {
+                styleObj[item] = 'rotate(' + this.props.arrange.rotate + 'deg)';
             })
             
         }
@@ -67,6 +67,32 @@ let ImgFigure = createReactClass({
                     </div>    
                 </figcaption>
             </figure>
+        );
+    }
+});
+
+let ControlUnit = createReactClass({
+    handleClick(e) {
+        if(this.props.arrange.isCenter) {
+            this.props.inverse();
+        }else{
+            this.props.center();
+        }
+
+        e.stopPropagation();
+        e.preventDefault();
+    },
+    render() {
+        let unitClassName = 'control-unit';
+        if(this.props.arrange.isCenter) {
+            unitClassName += ' is-center';
+
+            if(this.props.arrange.isInverse) {
+                unitClassName += ' is-inverse';
+            }
+        }
+        return (
+            <span className={unitClassName} onClick={this.handleClick}></span>
         );
     }
 });
@@ -253,7 +279,9 @@ class AppComponent extends React.Component {
     }
 
     render() {
-        let imgFigures = [];
+        let imgFigures = [],
+            controlUnits = [];
+
 
         images.map((img, index) => {
             if(!this.state.imgsArrangeArr[index]){
@@ -266,8 +294,11 @@ class AppComponent extends React.Component {
                     isInverse: false
                 };
             }
+
             imgFigures.push(<ImgFigure key={'imageFigure'+index} ref={'imageFigure'+index} data={img} arrange={this.state.imgsArrangeArr[index]} 
                 inverse={this.inverse(index)} center={this.center(index)} />);
+
+            controlUnits.push(<ControlUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
             return img;
         });
 
@@ -276,7 +307,9 @@ class AppComponent extends React.Component {
                 <section className="img-sec">
                     {imgFigures}
                 </section>
-                <nav className="control-nav"></nav>
+                <nav className="control-nav">
+                    {controlUnits}
+                </nav>
             </section>
         );
     }
