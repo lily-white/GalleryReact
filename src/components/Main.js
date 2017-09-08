@@ -4,6 +4,8 @@ require('styles/App.scss');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
+import ImgFigure from './ImgFigure';
+import ControlUnit from './ControlUnit';
 
 //获取图片数据信息
 let images = require('../data/images.json');
@@ -27,75 +29,7 @@ function get30DegRandom() {
   return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
 }
 
-let ImgFigure = createReactClass({
-    handleClick(e) {
-        if(this.props.arrange.isCenter){
-            this.props.inverse();
-        }else{
-            this.props.center();
-        }
 
-        e.stopPropagation();
-        e.preventDefault();
-    },
-    render() {
-        let styleObj = {};
-        if(this.props.arrange.pos){
-            styleObj = this.props.arrange.pos;
-        }
-        if(this.props.arrange.isCenter){
-            styleObj.zIndex = '11';
-        }
-
-        if(this.props.arrange.rotate){
-            ['WebkitTransform', 'MozTransform', 'msTransform', 'transform'].map((item) => {
-                styleObj[item] = 'rotate(' + this.props.arrange.rotate + 'deg)';
-            })
-            
-        }
-
-        let imgClass = 'img-figure';
-        imgClass += this.props.arrange.isInverse ? ' is-inverse' : '';
-
-        return (
-            <figure className={imgClass} style={styleObj} onClick={this.handleClick}>
-                <img src={this.props.data.imageURL} alt={this.props.data.title}/>
-                <figcaption>
-                    <h2 className="img-title">{this.props.data.title}</h2>
-                    <div className="img-back">
-                        <p>{this.props.data.desc}</p>
-                    </div>    
-                </figcaption>
-            </figure>
-        );
-    }
-});
-
-let ControlUnit = createReactClass({
-    handleClick(e) {
-        if(this.props.arrange.isCenter) {
-            this.props.inverse();
-        }else{
-            this.props.center();
-        }
-
-        e.stopPropagation();
-        e.preventDefault();
-    },
-    render() {
-        let unitClassName = 'control-unit';
-        if(this.props.arrange.isCenter) {
-            unitClassName += ' is-center';
-
-            if(this.props.arrange.isInverse) {
-                unitClassName += ' is-inverse';
-            }
-        }
-        return (
-            <span className={unitClassName} onClick={this.handleClick}></span>
-        );
-    }
-});
 
 class AppComponent extends React.Component {
     constructor(props) {
