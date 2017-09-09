@@ -3,7 +3,7 @@ import React from 'react';
 class ControlUnit extends React.Component{
     constructor(props) {
       super(props);
-    
+
       this.state = {};
       this.handleClick = this.handleClick.bind(this);
     }
@@ -32,7 +32,7 @@ class ControlUnit extends React.Component{
             <span className={unitClassName} onClick={this.handleClick}></span>
         );
     }
-});
+};
 
 ControlUnit.defaultProps = {};
 export default ControlUnit;
